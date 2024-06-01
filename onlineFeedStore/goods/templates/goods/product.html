@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %} 
+
+
+{% block header %}
+
+{% include 'includes/header.html' %}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+<section class="item">
+  <div class="container">
+    <div class="item__inner">
+      <a href="{{ request.META.HTTP_REFERER }}" class="item__back-link">Назад в каталог</a>
+      <h1 class="item__title">{{ product.name }}</h1>
+      <div class="item__desc">
+        <div class="item__img-inner">
+          {% if product.image_big %}
+          <img
+            src="{{ product.image_big.url }}"
+            alt="{{ product.name }}"
+            class="item__img"
+          />
+          {% else %}
+          <img
+          src="{% static "images/not-found-image.svg" %}"
+          alt="..."
+          class="item__img"
+          />
+          {% endif %}
+        </div>
+        <div class="item___desc-container">
+
+
+
+          <div class="item__desc-properties">
+            <div class="item__desc-property">
+              <p
+                class="item__desc-property-text item__desc-property-text_name"
+              >
+                <b>Название:</b> {{ product.name }}
+              </p>
+            </div>
+            {% if product.release_form %}
+            <div class="item__desc-property">
+              <p
+                class="item__desc-property-text item__desc-property-text_form"
+              >
+                <b>Форма выпуска:</b> {{ product.release_form }}
+              </p>
+            </div>
+            {% endif %}
+            {% if product.packing %}
+            <div class="item__desc-property">
+              <p
+                class="item__desc-property-text item__desc-property-text_pack"
+              >
+                <b>Упаковка:</b> {{ product.packing }}
+              </p>
+            </div>
+            {% endif %}
+            <div class="item__desc-property">
+              <p
+                class="item__desc-property-text item__desc-property-text_price"
+              >
+                <b>Цена:</b> {{ product.price }} <b>&#x20bd;</b>
+              </p>
+            </div>
+            <div class="item__desc-property">
+              <p
+                class="item__desc-property-text item__desc-property-text_quantity"
+              >
+                <b>Количество:</b> {{ product.quantity }}
+              </p>
+            </div>
+          </div>
+
+          <a class="item__desc-cart-btn add-to-cart" href="{% url "cart:cart_add" %}" data-product-id="{{ product.id }}">
+            {% csrf_token %}
+            Добавить в корзину
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
